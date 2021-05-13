@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState } from 'react';
-import { PickerInline, PickerOverlay } from 'filestack-react';
+import { PickerOverlay } from 'filestack-react';
 import deepai from 'deepai';
 import { Button, Modal } from 'reactstrap';
 import Transfer from './components/Transfer';
@@ -37,10 +37,10 @@ function App() {
     <div className="App">
       {style && content ? <Button onClick={() => transferStyle()}>Transfer Style</Button> : null}
       <span>
-        {content ? <img src={content} width={500}/> : <Button onClick={() => setContentModal(true)}>Choose Image</Button>}
+        {content ? <img src={content} width={500} alt={content}/> : <Button onClick={() => setContentModal(true)}>Choose Image</Button>}
       </span>
       <span>
-        {style ? <img src={style} width={500}/> : <Button onClick={() => setStyleModal(true)}>Choose Style Image</Button>}
+        {style ? <img src={style} width={500} alt={style}/> : <Button onClick={() => setStyleModal(true)}>Choose Style Image</Button>}
       </span>
       <div className="transfer-list">
         {transfers.map(transfer =>
