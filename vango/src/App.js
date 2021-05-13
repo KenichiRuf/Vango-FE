@@ -35,6 +35,8 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Vango</h1>
+      <p>Easy Image Style Transfer</p>
       {style && content ? <Button onClick={() => transferStyle()}>Transfer Style</Button> : null}
       <span>
         {content ? <img src={content} width={500} alt={content}/> : <Button onClick={() => setContentModal(true)}>Choose Image</Button>}
