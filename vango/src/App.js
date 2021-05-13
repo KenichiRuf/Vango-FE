@@ -6,7 +6,7 @@ import { Button, Modal } from 'reactstrap';
 import Transfer from './components/Transfer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-deepai.setApiKey('8975ebce-f2b8-48ba-ad29-551737b57208');
+deepai.setApiKey(process.env.REACT_APP_DEEPAIKEY);
 
 function App() {
 
@@ -30,7 +30,9 @@ function App() {
     setStyle(null)
   }
 
-  const toggleContentModal = () => setContentModal(!contentModal)
+  const toggleContentModal = () => {
+    console.log(process.env.REACT_APP_FILESTACKKEY)
+    setContentModal(!contentModal)}
   const toggleStyleModal = () => setStyleModal(!styleModal)
 
   return (
@@ -55,7 +57,7 @@ function App() {
       </div>
       <Modal isOpen={contentModal} toggle={toggleContentModal} size={"lg"}>
         <PickerOverlay
-          apikey={"ALAz14stfTNaofPLLgWUlz"}
+          apikey={process.env.REACT_APP_FILESTACKKEY}
           onSuccess={(res) => {
             setContent(res.filesUploaded[0].url)
             setContentModal(false)
@@ -64,7 +66,7 @@ function App() {
       </Modal>
       <Modal isOpen={styleModal} toggle={toggleStyleModal}>
         <PickerOverlay
-          apikey={"ALAz14stfTNaofPLLgWUlz"}
+          apikey={process.env.REACT_APP_FILESTACKKEY}
           onSuccess={(res) => {
             setStyle(res.filesUploaded[0].url)
             setStyleModal(false)
