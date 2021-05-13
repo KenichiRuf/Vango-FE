@@ -1,0 +1,22 @@
+.App {
+  text-align: center;
+}
+
+.transfer-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.transfer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.transfer-item {
+  width: 30%;
+}
+
+.transfer-item-image {
+  max-width: 100%;
+}
