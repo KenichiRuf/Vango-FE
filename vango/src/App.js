@@ -15,6 +15,7 @@ function App() {
   const [contentModal, setContentModal] = useState(false)
   const [styleModal, setStyleModal] = useState(false)
   const [transfers, setTransfers] = useState([])
+  const [imageList, setImageList] = useState([])
 
   const transferStyle = async () => {
     var res = await deepai.callStandardApi("fast-style-transfer", {
@@ -30,10 +31,10 @@ function App() {
     setStyle(null)
   }
 
-  const toggleContentModal = () => {
-    console.log(process.env.REACT_APP_FILESTACKKEY)
-    setContentModal(!contentModal)}
+  const toggleContentModal = () => setContentModal(!contentModal)
   const toggleStyleModal = () => setStyleModal(!styleModal)
+
+  const security = {security: {policy: process.env.REACT_APP_FILESTACKPOLICY, signature: process.env.REACT_APP_FILESTACKSIG}}
 
   return (
     <div className="App">
@@ -58,8 +59,10 @@ function App() {
       <Modal isOpen={contentModal} toggle={toggleContentModal} size={"lg"}>
         <PickerOverlay
           apikey={process.env.REACT_APP_FILESTACKKEY}
+          clientOptions={security}
           onSuccess={(res) => {
             setContent(res.filesUploaded[0].url)
+            setImageList([...imageList, res.filesUploaded[0].url])
             setContentModal(false)
           }}
         />
@@ -67,8 +70,10 @@ function App() {
       <Modal isOpen={styleModal} toggle={toggleStyleModal}>
         <PickerOverlay
           apikey={process.env.REACT_APP_FILESTACKKEY}
+          clientOptions={security}
           onSuccess={(res) => {
             setStyle(res.filesUploaded[0].url)
+            setImageList([...imageList, res.filesUploaded[0].url])
             setStyleModal(false)
           }}
         />
