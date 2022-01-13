@@ -34,8 +34,6 @@ function App() {
   const toggleContentModal = () => setContentModal(!contentModal)
   const toggleStyleModal = () => setStyleModal(!styleModal)
 
-  const security = {security: {policy: process.env.REACT_APP_FILESTACKPOLICY, signature: process.env.REACT_APP_FILESTACKSIG}}
-
   return (
     <div className="App">
       <h1>Vango</h1>
@@ -59,7 +57,6 @@ function App() {
       <Modal isOpen={contentModal} toggle={toggleContentModal} size={"lg"}>
         <PickerOverlay
           apikey={process.env.REACT_APP_FILESTACKKEY}
-          clientOptions={security}
           onSuccess={(res) => {
             setContent(res.filesUploaded[0].url)
             setImageList([...imageList, res.filesUploaded[0].url])
@@ -70,7 +67,6 @@ function App() {
       <Modal isOpen={styleModal} toggle={toggleStyleModal}>
         <PickerOverlay
           apikey={process.env.REACT_APP_FILESTACKKEY}
-          clientOptions={security}
           onSuccess={(res) => {
             setStyle(res.filesUploaded[0].url)
             setImageList([...imageList, res.filesUploaded[0].url])
