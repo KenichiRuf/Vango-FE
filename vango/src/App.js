@@ -1,8 +1,8 @@
 import './App.css';
 import React, { useState } from 'react';
-import { PickerOverlay } from 'filestack-react';
+import { PickerInline } from 'filestack-react';
 import deepai from 'deepai';
-import { Button, Modal } from 'reactstrap';
+import { Button } from 'reactstrap';
 import Transfer from './components/Transfer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,20 +31,39 @@ function App() {
     setStyle(null)
   }
 
-  const toggleContentModal = () => setContentModal(!contentModal)
-  const toggleStyleModal = () => setStyleModal(!styleModal)
-
   return (
     <div className="App">
       <h1>Vango</h1>
       <p>Easy Image Style Transfer</p>
+      <div>
+        <span>
+          {content ? <img src={content} width={500} alt={content}/> : <Button onClick={() => setContentModal(true)}>Choose Image</Button>}
+        </span>
+        <span>
+          {style ? <img src={style} width={500} alt={style}/> : <Button onClick={() => setStyleModal(true)}>Choose Style Image</Button>}
+        </span>
+      </div>
       {style && content ? <Button onClick={() => transferStyle()}>Transfer Style</Button> : null}
-      <span>
-        {content ? <img src={content} width={500} alt={content}/> : <Button onClick={() => setContentModal(true)}>Choose Image</Button>}
-      </span>
-      <span>
-        {style ? <img src={style} width={500} alt={style}/> : <Button onClick={() => setStyleModal(true)}>Choose Style Image</Button>}
-      </span>
+      <div style={contentModal ? {} : {display: "none"}}>
+        <PickerInline
+          apikey={process.env.REACT_APP_FILESTACKKEY}
+          onSuccess={(res) => {
+            setContent(res.filesUploaded[0].url)
+            setImageList([...imageList, res.filesUploaded[0].url])
+            setContentModal(false)
+          }}
+        />
+      </div>
+      <div style={styleModal ? {} : {display: "none"}}>
+        <PickerInline
+          apikey={process.env.REACT_APP_FILESTACKKEY}
+          onSuccess={(res) => {
+            setStyle(res.filesUploaded[0].url)
+            setImageList([...imageList, res.filesUploaded[0].url])
+            setStyleModal(false)
+          }}
+        />
+      </div>
       <div className="transfer-list">
         {transfers.map(transfer =>
           <Transfer
@@ -54,26 +73,6 @@ function App() {
           />
         )}
       </div>
-      <Modal isOpen={contentModal} toggle={toggleContentModal} size={"lg"}>
-        <PickerOverlay
-          apikey={process.env.REACT_APP_FILESTACKKEY}
-          onSuccess={(res) => {
-            setContent(res.filesUploaded[0].url)
-            setImageList([...imageList, res.filesUploaded[0].url])
-            setContentModal(false)
-          }}
-        />
-      </Modal>
-      <Modal isOpen={styleModal} toggle={toggleStyleModal}>
-        <PickerOverlay
-          apikey={process.env.REACT_APP_FILESTACKKEY}
-          onSuccess={(res) => {
-            setStyle(res.filesUploaded[0].url)
-            setImageList([...imageList, res.filesUploaded[0].url])
-            setStyleModal(false)
-          }}
-        />
-      </Modal>
     </div>
   );
 }
